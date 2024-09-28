@@ -22,7 +22,9 @@ class MainScr(Screen):
       hl = BoxLayout()
       txt = Label(text= 'Вибери екран')
       vl.add_widget(ScrButton(self, direction='down', goal='first', text="1"))
- 
+      vl.add_widget(ScrButton(self,direction='right',goal = 'second',text = '2'))
+      vl.add_widget(ScrButton(self, direction='left', goal='third', text="3"))
+      vl.add_widget(ScrButton(self,direction='up',goal= 'fouth',text = "4" ))
       hl.add_widget(txt)
       hl.add_widget(vl)
       self.add_widget(hl)
@@ -36,13 +38,61 @@ class FirstScr(Screen):
       vl.add_widget(btn_back)
       self.add_widget(vl)
 
+class SecondScr(Screen):
+   def __init__(self, **kwards):
+      super().__init__(**kwards)
+      vl = BoxLayout(orientation = 'vertical')
+      self.txt= Label(text = 'Вибір 2 ')
+      vl.add_widget(self.txt)
+      h1_0 = BoxLayout(size_hint = (0.8,None) ,height = '30sp')
+      lbl1 = Label(text = 'Введіть пароль:',halign = 'right')
+      self.input = TextInput(multiline = False)
+      h1_0.add_widget(lbl1)
+      h1_0.add_widget(self.input)
+      vl.add_widget(h1_0)
+      h1 = BoxLayout(size_hint = (0.5,0.2),pos_hint = {'center_x':0.5})
+      btn_ok = Button(text = 'OK')
+      btn_back = ScrButton(self, direction='right', goal='main', text="Назад")
 
+      h1.add_widget(btn_ok)
+      h1.add_widget(btn_back)        
+      vl.add_widget(h1)    
+      self.add_widget(vl)     
+      btn_ok.on_press = self.change_text
+
+      def change_text(self):
+         self.txt.text = self.input.text + "Не спрацювало??"
+
+class FouthScr(Screen):
+     def __init__(self, **kwargs):
+      super().__init__(**kwargs)
+      vl = BoxLayout(orientation='vertical', size_hint=(.5, .5), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+      btn = Button(text= 'Вибір: 1', size_hint=(.5, 1), pos_hint={'left': 0})
+      btn_back = ScrButton(self, direction='left', goal='main', text="Назад", size_hint=(.5, 1), pos_hint={'right': 1})
+      vl.add_widget(btn)  
+      vl.add_widget(btn_back)
+      self.add_widget(vl)
+
+
+class TrirdScr(Screen):
+   def __init__(self,**kwards):
+      super().__init__(**kwards)
+      layout = BoxLayout(orientation= 'vertical')
+      test_label = Label(text= 'Твій власний екран')
+      btn_back = ScrButton(self, direction='down', goal='main', text="Назад", size_hint=(1, None), height='40sp')
+      layout.add_widget(test_label)
+      layout.add_widget(btn_back)
+      self.add_widget(layout)
 
 class MyApp(App):
   def build(self):
       sm = ScreenManager()
+      sm.add_widget(SecondScr(name = 'Second'))
       sm.add_widget(MainScr(name='main'))
       sm.add_widget(FirstScr(name='first'))
-     
+      sm.add_widget(TrirdScr(name = 'third'))
+      
       return sm
+  
+
 MyApp().run()
